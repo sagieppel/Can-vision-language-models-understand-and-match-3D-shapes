@@ -21,13 +21,14 @@ The script should run as is with these folders.
 However, if you want to create truly diverse data, you need a large number of backgrounds, objects, and PBR materials. This can be downloaded for free at:
 HDRI Backgrounds:[PolyHaven](https://polyhaven.com/).
 
- PBR Materials: [Vastexture](https://sites.google.com/view/infinitexture/home).
+PBR Materials: [Vastexture](https://sites.google.com/view/infinitexture/home).
+ 
 3D  Objects: [Objaverse](https://objaverse.allenai.org/), [Shapenet](https://shapenet.org/). 
 
 
 # How to use it.
 There are two ways to use this code, one from within Blender and one from the command line.
-To run from within blender, open DatasetGeneration.blend and run from main.py from within blender.
+To run from within blender, open DatasetGeneration.blend and run  main.py from within blender.
 
 To run from the command line, use the line:
 blender DatasetGeneration.blend --background -noaudio -P  main.py
@@ -66,13 +67,13 @@ Additional boolean parameters control which element will be modified in the imag
 
 # Post processing: cleaning and making tests
 ## Cleaning:
-Some small fraction of the generated images the objects will too small to be visible the script [Image_Generation_Script/Filter_images]() scan the output folder and filter these cases:
+In some small fraction of the generated images the objects will too small to be visible. The script [Image_Generation_Script/Filter_images](https://github.com/sagieppel/Can-vision-language-models-understand-and-match-3D-shapes/blob/main/Filter_images/Filter_Images.py) scan the output folder and filter these cases:
 
 # Making tests:
 
-To turn the generated images into a multi choice 3D shapes matching test for humans see script: [Make_Quiz/Human_Quiz/HumanQuiz.py]() this receives the generated images and turns them into tests for humans.
+To turn the generated images into a multi choice 3D shapes matching test for humans see script: [Make_Quiz/Human_Quiz/HumanQuiz.py](https://github.com/sagieppel/Can-vision-language-models-understand-and-match-3D-shapes/tree/main/Make_Quiz/Human_Quiz) this receives the generated images and turns them into tests for humans.
 
-To turn the generated images into a multi choice 3D shapes matching test for Vision language models (VLM) see scripts in folder: [Make_Quiz/LVM_AI_QUIZ]().
+To turn the generated images into a multi choice 3D shapes matching test for Vision language models (VLM) see scripts in folder: [Make_Quiz/LVM_AI_QUIZ](https://github.com/sagieppel/Can-vision-language-models-understand-and-match-3D-shapes/tree/main/Make_Quiz/LVM_AI_QUIZ).
  
 # Input folder structure:
 See supplied sample folders for reference:
