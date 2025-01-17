@@ -91,7 +91,7 @@ For PBR from other sources: The script: PBR_handling\StandartizePBR.py will auto
 
 
 
-# Dealing with blender slowing done memory  issues and crashes
+# Dealing with blender slowing, memory  issues and crashes
 In case you encounter blender Crash or slowing. To avoid the need to restart the program every time Blender crashes, use the shell script Run.sh. This script will run the blender file in a loop, so it will restart every time Blender crashes (and continue from the last set). This can be run from shell/cmd/terminal: using: sh Run.sh.
 Also, in some cases the blender doesn't crash but  can start getting slower and slower, one way to solve it is to exit the blender once in  a while. Setting the parameter: use_priodical_exits
 In the main.py to True, will cause Blender to exist every 10 sets. If this is run inside Run.sh blender will be immediately restarted and will start working cleanly.
