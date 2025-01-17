@@ -12,3 +12,8 @@ Set path to output folder where results will be saved to out_folder.
 Run script.
 
 ###  For more details see [Do large language vision models understand 3D shapes?](https://arxiv.org/pdf/2412.10908)
+
+Sample test images are available [here](https://github.com/sagieppel/Can-vision-language-models-understand-and-match-3D-shapes/tree/main/Make_Quiz/test_images).
+
+Large set of test images are vailable [here](https://drive.google.com/file/d/1NAPLUJSemckBSlbnRZYRKiO7McINuPXL/view?usp=sharing).
+
