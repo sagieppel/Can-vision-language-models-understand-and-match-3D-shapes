@@ -48,9 +48,19 @@ ObjectMainFolder = r"objects//" #Folder of objects (like objaverseshapenet)
 
 pbr_folders = [r'PBR_Materials//']# folders with PBR materiall each folder will be use with equal chance
 
-# folder where out put will be save
 
 OutFolder="output_images/" # folder where generated images will be save
+
+#****************************************************************************************************************
+#HDRI_BackGroundFolder=r"/media/deadcrow/6TB/Materials_Assets/4k//"
+#ObjectMainFolder=r"/media/deadcrow/6TB/Datasets/ObjaverseV1/"#/media/deadcrow/6TB/Datasets/ObjaverseV1/Categories//"
+#OutFolder="/media/deadcrow/6TB/python_project/Can_LVM_See3D/All_Tests/10_Everythiong_Different_New_Big_Set_WITH_RESIZE_DISPLACEMENT/" # folder where out put will be save
+#pbr_folders = [r'/media/deadcrow/SSD_480GB/PBR_Materials_SEAMLESS_larger_then_512pix//'] # folders with PBR materiall each folder will be use with equal chance
+
+#OutFolder="output_images/" # folder where generated images will be save
+
+#************************************************************
+
 
 
 max_renders = 3 # Number of image renders per instance 
@@ -66,7 +76,7 @@ random_texture = True # each instance will have different random texture
 random_background = True # each instance will have different random texture
 replace_texture=True # replace the object original texture with single pbr
 save_masks=True # save objecty mask
-
+random_resize=True #  random resize object (or just just move camera)
 
 use_priodical_exits = False # Exit blender once every few sets to avoid memory leaks, assuming that the script is run inside Run.sh loop that will imidiatly restart blender fresh
  
@@ -109,7 +119,11 @@ NumSimulationsToRun=100000000000              # Number of simulation to run
 
 bpy.context.scene.render.engine = 'CYCLES' # 
 bpy.context.scene.cycles.device = 'GPU' # If you have GPU 
-bpy.context.scene.cycles.feature_set = 'EXPERIMENTAL' # Not sure if this is really necessary but might help with sum surface textures
+
+# Ensure we're using the correct context
+bpy.context.preferences.addons['cycles'].preferences.compute_device_type = 'CUDA'
+
+bpy.context.scene.cycles.feature_set = 'EXPERIMENTAL' # Help create bumpiness texture but in some cases will also lead to deformation of object
 bpy.context.scene.cycles.samples = 120 #200, #900 # This work well for rtx 3090 for weaker hardware this can take lots of time
 bpy.context.scene.cycles.preview_samples = 900 # This work well for rtx 3090 for weaker hardware this can take lots of time
 
@@ -182,12 +196,14 @@ for ncat,cat in enumerate(os.listdir(ObjectMainFolder)):
                            object_path = InCatFolder + "//" + obj_fl
                            print(object_path)
                            MainObjectName=Objects.LoadObject([0,0,0],1,object_path) # LOAD OBJECT
+                           
                            SetScene.AddBackground(hdr_list) # Add randonm Background hdri from hdri folder
+                      ###     SetScene.AddGroundPlane("Ground",x0=0,y0=0,z0=-0.5,sx=5+np.random.rand()*5,sy=5+np.random.rand()*5)
                      
                        #*****************88            
                            for i in range(3): # set object orientation
                                       if random_orient:
-                                             orientation = np.random.rand()*6.2831853/3
+                                             orientation = np.random.rand()*6.2831853#/3
                                       bpy.data.objects[MainObjectName].rotation_quaternion[i] = orientation
                             # randomize background orientation
                            for i in range(3):    
@@ -213,7 +229,11 @@ for ncat,cat in enumerate(os.listdir(ObjectMainFolder)):
                 #...........Set Scene and camera postion..........................................................
                            
                            bpy.context.scene.render.engine = 'CYCLES'
-                           SetScene.SetCamera(name="Camera", lens = 32, location=(0,0,1.2),rotation=(0, 0, 0),shift_x=0,shift_y=0)
+                           if random_resize: # not actually resize but different camera position
+                                SetScene.SetCamera(name="Camera", lens = 32, location=(0,0,np.random.rand()*1+0.85),rotation=(0, 0, 0),shift_x=0,shift_y=0)
+                           else:
+                                SetScene.SetCamera(name="Camera", lens = 32, location=(0,0,1.2),rotation=(0, 0, 0),shift_x=0,shift_y=0)
+#                      
 
 #                           bpy.data.objects['Camera'].location=(0, 0, 20)
 #                           bpy.data.objects['Camera'].rotation_euler=[0,0,0]
@@ -238,10 +258,12 @@ for ncat,cat in enumerate(os.listdir(ObjectMainFolder)):
                            ClearMaterials(KeepMaterials=MaterialsList)
                            print("========================Finished==================================")
                            SetScene.CleanScene()  # Delete all objects in scence
-                           if use_priodical_exits and scounter>=20: # Break program and exit blender, allow blender to remove junk
-                                    #  print("Resting for a minute"
+                           #-----------------Priodic  Quit help to flash memory, and avoid system getting slower over time, if you run from run.sh
+                           scounter+=1
+                           if use_priodical_exits and scounter>=300: # Break program and exit blender, allow blender to remove junk
+                                      print("priodic quire")
                                     #  time.sleep(30)
-                                      break
+                                      bpy.ops.wm.quit_blender()
 #if use_priodical_exits:
 #       print("quit")
 #       bpy.ops.wm.quit_blender()
