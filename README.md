@@ -1,4 +1,5 @@
-# Can Large vision language models understand and match 3D shapes: Generate images of same 3D object but with different orientations, textures/materials, and environments
+# Generate 3D Shape Recognition and Retrieval Synthetic Dataset Blender
+### Can Large vision language models understand and match 3D shapes: Generate images of same 3D object but with different orientations, textures/materials, and environments
 
 This script will procedurally generate images of the same objects but made of different materials, viewed from different directions, orientations, and in different environments and illumination. The goal is  for testing Vision Language models (VLM) and humans ability to recognize  and match 3D shapes. For more details see the papers [Do large language vision models understand 3D shapes?](https://arxiv.org/pdf/2412.10908) and
 [Shape and texture recognition in large vision-language models?](https://arxiv.org/pdf/2503.23062).
